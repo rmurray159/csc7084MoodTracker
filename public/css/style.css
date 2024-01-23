@@ -1,0 +1,93 @@
+.gradient-background {
+    background: linear-gradient(300deg, #00bfff, #ff4c68, #ef8172);
+    background-size: 180% 180%;
+    animation: gradient-animation 18s ease infinite;
+  }
+  
+  @keyframes gradient-animation {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+/* Custom styles for centering the container */
+section {
+  display: flex;
+  min-height: 100vh;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Centering the checkboxes */
+.btn-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  }
+
+  .slider1::-webkit-slider-runnable-track {
+    background-color: #a03d3e; /* Change this to the desired color */
+  }
+
+  .slider1::-moz-range-track {
+    background-color: #a03d3e; /* Change this to the desired color */
+  }
+
+  .slider2::-webkit-slider-runnable-track {
+    background-color: #b76c51; /* Change this to the desired color */
+  }
+
+  .slider2::-moz-range-track {
+    background-color: #b76c51; /* Change this to the desired color */
+  }
+
+  .slider3::-webkit-slider-runnable-track {
+    background-color: #649941; /* Change this to the desired color */
+  }
+
+  .slider3::-moz-range-track {
+    background-color: #649941; /* Change this to the desired color */
+  }
+
+  .slider4::-webkit-slider-runnable-track {
+    background-color: #eaaf24; /* Change this to the desired color */
+  }
+
+  .slider4::-moz-range-track {
+    background-color: #eaaf24; /* Change this to the desired color */
+  }
+
+  .slider5::-webkit-slider-runnable-track {
+    background-color: #5b3988; /* Change this to the desired color */
+  }
+
+  .slider5::-moz-range-track {
+    background-color: #5b3988; /* Change this to the desired color */
+  }
+
+  .slider6::-webkit-slider-runnable-track {
+    background-color: #406aad; /* Change this to the desired color */
+  }
+
+  .slider6::-moz-range-track {
+    background-color: #406aad; /* Change this to the desired color */
+  }
+
+  .slider7::-webkit-slider-runnable-track {
+    background-color: #3cafaf; /* Change this to the desired color */
+  }
+
+  .slider7::-moz-range-track {
+    background-color: #3cafaf; /* Change this to the desired color */
+  }
+
+
+
+
+
