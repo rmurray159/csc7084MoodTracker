@@ -23,18 +23,10 @@ exports.getAddNewSnapshot = (req, res) => {
 
 // handle form submission of a new snapshot 
 exports.postNewSnapshot = (req, res) => {
-    const user_id = 1; 
+    const user_id = 1; // will need to get this from the session when it's done
     const { slider1, slider2, slider3, slider4, slider5, slider6, slider7, notes } = req.body;
-    
-    // // Parse checkbox values as integers
-    // const checkbox1Value = parseInt(checkbox1, 10) || 0;
-    // const checkbox2Value = parseInt(checkbox2, 10) || 0;
-    // const checkbox3Value = parseInt(checkbox3, 10) || 0;
 
-    // // Check the state of the checkboxes
-    // const checkbox1Checked = checkbox1Value !== 0;
-    // const checkbox2Checked = checkbox2Value !== 0;
-    // const checkbox3Checked = checkbox3Value !== 0;
+    console.log('Received form data:', req.body);
 
     // Determine if the notes box has an entry inlcuded (code snippet from ChatGPT)
     const includeNotes = notes && notes.trim() !== ''; // Check if notes is not empty
@@ -46,15 +38,57 @@ exports.postNewSnapshot = (req, res) => {
      
     if (includeNotes) {
         vals.push(notes);
-    }
+    };
 
     conn.query(insertSQL, vals, (err, rows) => {
         if (err) {
             throw err;
-        } else {
-            console.log('Data inserted into the database', rows);
+        } 
+        console.log('Data inserted into the database:', rows);
+
+        //Get the last inserted snapshot_id
+        const snapshotId = rows.insertId;
+
+        //Checkboxes processing
+        const checkboxValues = [];
+
+        // Check the 12 checkboxes (would need to be adjusted if change number of checkboxes)
+        for (let i = 1; i <=12; i++) {
+            const checkboxName = `checkbox${i}`; //
+            const checkboxValue = req.body[checkboxName];
+
+            console.log(`Checkbox ${i}:`, checkboxName, checkboxValue);
+
+            // Check if the checkbox is checked chatGPT snipped for it isArray
+            if (Array.isArray(checkboxValue) ? checkboxValue[1] === 'on' : checkboxValue === 'on') {
+            const actualValue = parseInt(req.body[`checkbox_value${i}`], 10);
+            checkboxValues.push([snapshotId, actualValue]);
+            }
         }
-    });
+
+        console.log('Checkbox values:', checkboxValues);
+
+        if (checkboxValues.length > 0) {
+            // Insert checkbox values into database
+            const checkboxSQL = 'INSERT INTO snapshot_trigger (snapshot_id, trigger_id) VALUES ?';
+            conn.query(checkboxSQL, [checkboxValues], (checkboxErr, checkboxResult) => {
+                if (checkboxErr) {
+                    // Handle error appropriately
+                    console.error('Error inserting checkbox values into the database:', checkboxErr);
+                    res.status(500).send('Internal Server Error');
+                    return;
+                }
+
+                console.log('Checkbox values inserted into the database:', checkboxResult);
+                // Send a response to the client or perform additional actions as needed
+                res.status(200).send('Snapshot and checkbox data inserted successfully');
+            });
+        } else {
+        // No checkboxes selected, proceed without inserting checkbox values
+        // Send a response to the client or perform additional actions as needed
+         res.status(200).send('Snapshot data inserted successfully');
+    }
+  });
 };
 
 // post edit shapshot
