@@ -4,10 +4,9 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="style.css">
     <title>Add Snapshot</title>
 
     <style>
@@ -18,8 +17,8 @@
    
     <section class="gradient-background">
         <div class="container mt-5">
-            <h2 class="text-center">Good afternoon, <%= first_name %>, how are you feeling this <%= timeofday %> ?</h2>
-            <form>
+            <h2 class="text-center">Good afternoon, , how are you feeling this  ?</h2>
+            <form method="post" action="/new">
             <!-- Heading for Sliders -->
             <div class="mb-3">
                 <h4>Emotion Snapshot</h4>
@@ -28,19 +27,19 @@
             <!-- Range Sliders with Value Display -->
             
             <div class="mb-3">
-                <label for="slider1" class="form-label">Anger: <span id="slider1Value">0</span></label>
+                <label for="slider1" class="form-label">Enjoyment: <span id="slider1Value">0</span></label>
                 <input type="range" class="form-range slider1" id="slider1" name="slider1" max="10" onchange="updateSliderValue('slider1', 'slider1Value')">
             </div>
             <div class="mb-3">
-                <label for="slider2" class="form-label">Contempt: <span id="slider2Value">0</span></label>
+                <label for="slider2" class="form-label">Surprise: <span id="slider2Value">0</span></label>
                 <input type="range" class="form-range slider2" id="slider2" name="slider2" max="10" onchange="updateSliderValue('slider2', 'slider2Value')">
             </div>
             <div class="mb-3">
-                <label for="slider3" class="form-label">Disgust: <span id="slider3Value">0</span></label>
+                <label for="slider3" class="form-label">Contempt: <span id="slider3Value">0</span></label>
                 <input type="range" class="form-range slider3" id="slider3" name="slider3" max="10" onchange="updateSliderValue('slider3', 'slider3Value')">
             </div>
             <div class="mb-3">
-                <label for="slider4" class="form-label">Enjoyment: <span id="slider4Value">0</span></label>
+                <label for="slider4" class="form-label">Sadness: <span id="slider4Value">0</span></label>
                 <input type="range" class="form-range slider4" id="slider4" name="slider4" max="10" onchange="updateSliderValue('slider4', 'slider4Value')">
             </div>
             <div class="mb-3">
@@ -48,11 +47,11 @@
                 <input type="range" class="form-range slider5" id="slider5" name="slider5" max="10" onchange="updateSliderValue('slider5', 'slider5Value')">
             </div>
             <div class="mb-3">
-                <label for="slider6" class="form-label">Sadness: <span id="slider6Value">0</span></label>
+                <label for="slider6" class="form-label">Disgust: <span id="slider6Value">0</span></label>
                 <input type="range" class="form-range slider6" id="slider6" name="slider6" max="10" onchange="updateSliderValue('slider6', 'slider6Value')">
             </div>
             <div class="mb-3">
-                <label for="slider7" class="form-label">Surprise: <span id="slider7Value">0</span></label>
+                <label for="slider7" class="form-label">Anger: <span id="slider7Value">0</span></label>
                 <input type="range" class="form-range slider7" id="slider7" name="slider7" max="10" onchange="updateSliderValue('slider7', 'slider7Value')">
             </div>
 
@@ -63,39 +62,52 @@
                 <div class="mb-3">
                     <label for="checkboxGroup" class="form-label">What's been happening?</label>
                     <div class="btn-group" role="group" aria-label="Checkbox Group" id="checkboxGroup">
+
+                    <input type="hidden" name="checkbox1" value="1">    
                     <input type="checkbox" class="btn-check" id="checkbox1">
                     <label class="btn btn-outline-primary" for="checkbox1">Family</label>
-            
+                    
+                    <input type="hidden" name="checkbox2" value="2">
                     <input type="checkbox" class="btn-check" id="checkbox2">
                     <label class="btn btn-outline-primary" for="checkbox2">Work</label>
             
+                    <input type="hidden" name="checkbox3" value="3">
                     <input type="checkbox" class="btn-check" id="checkbox3">
                     <label class="btn btn-outline-primary" for="checkbox3">Sleep</label>
             
+                    <input type="hidden" name="checkbox4" value="4">
                     <input type="checkbox" class="btn-check" id="checkbox4">
                     <label class="btn btn-outline-primary" for="checkbox4">Exercise</label>
             
+                    <input type="hidden" name="checkbox5" value="5">
                     <input type="checkbox" class="btn-check" id="checkbox5">
                     <label class="btn btn-outline-primary" for="checkbox5">Weather</label>
             
+                    <input type="hidden" name="checkbox6" value="6">
                     <input type="checkbox" class="btn-check" id="checkbox6">
                     <label class="btn btn-outline-primary" for="checkbox6">Friends</label>
             
+                    <input type="hidden" name="checkbox7" value="7">
                     <input type="checkbox" class="btn-check" id="checkbox7">
                     <label class="btn btn-outline-primary" for="checkbox7">Date</label>
             
+                    <input type="hidden" name="checkbox8" value="8">
                     <input type="checkbox" class="btn-check" id="checkbox8">
                     <label class="btn btn-outline-primary" for="checkbox8">Study</label>
             
+                    <input type="hidden" name="checkbox9" value="9">
                     <input type="checkbox" class="btn-check" id="checkbox9">
-                    <label class="btn btn-outline-primary" for="checkbox9">Meditation</label>
+                    <label class="btn btn-outline-primary" for="checkbox9">Holiday</label>
             
+                    <input type="hidden" name="checkbox10" value="10">
                     <input type="checkbox" class="btn-check" id="checkbox10">
                     <label class="btn btn-outline-primary" for="checkbox10">Volunteer</label>
 
+                    <input type="hidden" name="checkbox11" value="11">
                     <input type="checkbox" class="btn-check" id="checkbox11">
                     <label class="btn btn-outline-primary" for="checkbox11">Healthy Food</label>
 
+                    <input type="hidden" name="checkbox12" value="12">
                     <input type="checkbox" class="btn-check" id="checkbox12">
                     <label class="btn btn-outline-primary" for="checkbox12">Hungry</label>
                     </div>
@@ -104,10 +116,10 @@
             <!-- Text Box after Button Group -->
             <div class="mb-3">
                 <label for="textBox" class="form-label">Notes</label>
-                <textarea class="form-control" id="textBox" name="textBox" rows="3"></textarea>
+                <textarea class="form-control" id="notes" name="notes" rows="3"></textarea>
             </div>
         
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Save Snapshot</button>
             </form>
         </div>
     </section>
