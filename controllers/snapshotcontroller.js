@@ -29,16 +29,16 @@ exports.postNewSnapshot = (req, res) => {
     console.log('Received form data:', req.body);
 
     // Determine if the notes box has an entry inlcuded (code snippet from ChatGPT)
-    const includeNotes = notes && notes.trim() !== ''; // Check if notes is not empty
+    //const includeNotes = notes && notes.trim() !== ''; // Check if notes is not empty
 
     // Insert form values into the database 
-    const vals = [ slider1, slider2, slider3, slider4, slider5, slider6, slider7, user_id];
+    const vals = [ slider1, slider2, slider3, slider4, slider5, slider6, slider7, user_id, notes];
     
-    const insertSQL = `INSERT INTO snapshot (enjoyment_level, surprise_level, contempt_level, sadness_level, fear_level, disgust_level, anger_level, user_id, timestamp, ${includeNotes ? 'notes' : ''}) VALUES (?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, ${includeNotes ? '? ' : ''} )`;
+    const insertSQL = `INSERT INTO snapshot (enjoyment_level, surprise_level, contempt_level, sadness_level, fear_level, disgust_level, anger_level, user_id, timestamp, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, ?)`;
      
-    if (includeNotes) {
-        vals.push(notes);
-    };
+    // if (includeNotes) {
+    //     vals.push(notes);
+    // };
 
     conn.query(insertSQL, vals, (err, rows) => {
         if (err) {
@@ -81,14 +81,22 @@ exports.postNewSnapshot = (req, res) => {
 
                 console.log('Checkbox values inserted into the database:', checkboxResult);
                 // Send a response to the client or perform additional actions as needed
-                res.status(200).send('Snapshot and checkbox data inserted successfully');
+                //res.status(200).send('Snapshot and checkbox data inserted successfully');
+                const data = req.body;
+                console.log(data);
+                res.render('snapshotsummary', data);
             });
         } else {
         // No checkboxes selected, proceed without inserting checkbox values
         // Send a response to the client or perform additional actions as needed
-         res.status(200).send('Snapshot data inserted successfully');
+         //res.status(200).send('Snapshot data inserted successfully');
+         const data = req.body;
+         console.log(data);
+         res.render('snapshotsummary', data);
     }
+
   });
+
 };
 
 // post edit shapshot
