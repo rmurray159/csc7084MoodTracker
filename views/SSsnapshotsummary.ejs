@@ -7,7 +7,7 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
-    <title>Add Snapshot</title>
+    <title>Snapshot Summary</title>
 
     <style>
     </style>
@@ -27,7 +27,7 @@
                 <a class="nav-link"  href="/new">Add Snapshot</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="/all">Entries</a>
+                <a class="nav-link" href="#">Entries</a>
               </li>
     
               <li class="nav-item">
@@ -41,42 +41,42 @@
    
     <section class="gradient-background">
         <div class="container mt-5">
-            <h2 class="text-center">Good afternoon, , how are you feeling this  ?</h2>
-            <form method="post" action="/new">
+            <h2 class="text-center">Snapshot Summary</h2>
+            
             <!-- Heading for Sliders -->
             <div class="mb-3">
-                <h4>Emotion Snapshot</h4>
+                <h4>Snapshot Summary</h4>
             </div>
         
             <!-- Range Sliders with Value Display -->
             
             <div class="mb-3">
-                <label for="slider1" class="form-label">Enjoyment: <span id="slider1Value">0</span></label>
-                <input type="range" class="form-range slider1" id="slider1" name="slider1" max="10" onchange="updateSliderValue('slider1', 'slider1Value')">
+                <label for="slider1" class="form-label">Enjoyment: <span id="slider1Value"><%= slider1 %></span></label>
+                <input type="range" class="form-range slider1" id="slider1" name="slider1" max="10" value="<%= slider1 %>" disabled>
             </div>
             <div class="mb-3">
-                <label for="slider2" class="form-label">Surprise: <span id="slider2Value">0</span></label>
-                <input type="range" class="form-range slider2" id="slider2" name="slider2" max="10" onchange="updateSliderValue('slider2', 'slider2Value')">
+                <label for="slider2" class="form-label">Surprise: <span id="slider2Value"><%= slider2 %></span></label>
+                <input type="range" class="form-range slider2" id="slider2" name="slider2" max="10" value="<%= slider2 %>" disabled>
             </div>
             <div class="mb-3">
-                <label for="slider3" class="form-label">Contempt: <span id="slider3Value">0</span></label>
-                <input type="range" class="form-range slider3" id="slider3" name="slider3" max="10" onchange="updateSliderValue('slider3', 'slider3Value')">
+                <label for="slider3" class="form-label">Contempt: <span id="slider3Value"><%= slider3 %></span></label>
+                <input type="range" class="form-range slider3" id="slider3" name="slider3" max="10" value="<%= slider3 %>" disabled>
             </div>
             <div class="mb-3">
-                <label for="slider4" class="form-label">Sadness: <span id="slider4Value">0</span></label>
-                <input type="range" class="form-range slider4" id="slider4" name="slider4" max="10" onchange="updateSliderValue('slider4', 'slider4Value')">
+                <label for="slider4" class="form-label">Sadness: <span id="slider4Value"><%= slider4 %></span></label>
+                <input type="range" class="form-range slider4" id="slider4" name="slider4" max="10" value="<%= slider4 %>" disabled>
             </div>
             <div class="mb-3">
-                <label for="slider5" class="form-label">Fear: <span id="slider5Value">0</span></label>
-                <input type="range" class="form-range slider5" id="slider5" name="slider5" max="10" onchange="updateSliderValue('slider5', 'slider5Value')">
+                <label for="slider5" class="form-label">Fear: <span id="slider5Value"><%= slider5 %></span></label>
+                <input type="range" class="form-range slider5" id="slider5" name="slider5" max="10" value="<%= slider5 %>" disabled>
             </div>
             <div class="mb-3">
-                <label for="slider6" class="form-label">Disgust: <span id="slider6Value">0</span></label>
-                <input type="range" class="form-range slider6" id="slider6" name="slider6" max="10" onchange="updateSliderValue('slider6', 'slider6Value')">
+                <label for="slider6" class="form-label">Disgust: <span id="slider6Value"><%= slider6 %></span></label>
+                <input type="range" class="form-range slider6" id="slider6" name="slider6" max="10" value="<%= slider6 %>" disabled>
             </div>
             <div class="mb-3">
-                <label for="slider7" class="form-label">Anger: <span id="slider7Value">0</span></label>
-                <input type="range" class="form-range slider7" id="slider7" name="slider7" max="10" onchange="updateSliderValue('slider7', 'slider7Value')">
+                <label for="slider7" class="form-label">Anger: <span id="slider7Value"><%= slider7 %></span></label>
+                <input type="range" class="form-range slider7" id="slider7" name="slider7" max="10" value="<%= slider7 %>" disabled>
             </div>
 
            
@@ -88,51 +88,51 @@
                     <div class="btn-group" role="group" aria-label="Checkbox Group" id="checkboxGroup">
 
                     <input type="hidden" name="checkbox_value1" value="1">    
-                    <input type="checkbox" class="btn-check" id="checkbox1" name="checkbox1">
+                    <input type="checkbox" class="btn-check" id="checkbox1" name="checkbox1" <% if (checkbox1Checked) { %>checked <% } %> disabled>
                     <label class="btn btn-outline-primary" for="checkbox1">Family</label>
                     
                     <input type="hidden" name="checkbox_value2" value="2">
-                    <input type="checkbox" class="btn-check" id="checkbox2" name="checkbox2">
+                    <input type="checkbox" class="btn-check" id="checkbox2" name="checkbox2" <% if (checkbox2Checked) { %>checked <% } %> disabled>
                     <label class="btn btn-outline-primary" for="checkbox2">Work</label>
             
                     <input type="hidden" name="checkbox_value3" value="3">
-                    <input type="checkbox" class="btn-check" id="checkbox3" name="checkbox3">
+                    <input type="checkbox" class="btn-check" id="checkbox3" name="checkbox3" <% if (checkbox3Checked) { %>checked <% } %> disabled>
                     <label class="btn btn-outline-primary" for="checkbox3">Sleep</label>
             
                     <input type="hidden" name="checkbox_value4" value="4">
-                    <input type="checkbox" class="btn-check" id="checkbox4" name="checkbox4">
+                    <input type="checkbox" class="btn-check" id="checkbox4" name="checkbox4" <% if (checkbox4Checked) { %>checked <% } %> disabled>
                     <label class="btn btn-outline-primary" for="checkbox4">Exercise</label>
             
                     <input type="hidden" name="checkbox_value5" value="5">
-                    <input type="checkbox" class="btn-check" id="checkbox5" name="checkbox5">
+                    <input type="checkbox" class="btn-check" id="checkbox5" name="checkbox5" <% if (checkbox5Checked) { %>checked <% } %> disabled>
                     <label class="btn btn-outline-primary" for="checkbox5">Weather</label>
             
                     <input type="hidden" name="checkbox_value6" value="6">
-                    <input type="checkbox" class="btn-check" id="checkbox6" name="checkbox6">
+                    <input type="checkbox" class="btn-check" id="checkbox6" name="checkbox6" <% if (checkbox6Checked) { %>checked <% } %> disabled>
                     <label class="btn btn-outline-primary" for="checkbox6">Friends</label>
             
                     <input type="hidden" name="checkbox_value7" value="7">
-                    <input type="checkbox" class="btn-check" id="checkbox7" name="checkbox7">
+                    <input type="checkbox" class="btn-check" id="checkbox7" name="checkbox7" <% if (checkbox7Checked) { %>checked <% } %> disabled>
                     <label class="btn btn-outline-primary" for="checkbox7">Date</label>
             
                     <input type="hidden" name="checkbox_value8" value="8">
-                    <input type="checkbox" class="btn-check" id="checkbox8" name="checkbox8">
+                    <input type="checkbox" class="btn-check" id="checkbox8" name="checkbox8" <% if (checkbox8Checked) { %>checked <% } %> disabled>
                     <label class="btn btn-outline-primary" for="checkbox8">Study</label>
             
                     <input type="hidden" name="checkbox_value9" value="9">
-                    <input type="checkbox" class="btn-check" id="checkbox9" name="checkbox9">
+                    <input type="checkbox" class="btn-check" id="checkbox9" name="checkbox9" <% if (checkbox9Checked) { %>checked <% } %> disabled>
                     <label class="btn btn-outline-primary" for="checkbox9">Holiday</label>
             
                     <input type="hidden" name="checkbox_value10" value="10">
-                    <input type="checkbox" class="btn-check" id="checkbox10" name="checkbox10">
+                    <input type="checkbox" class="btn-check" id="checkbox10" name="checkbox10" <% if (checkbox10Checked) { %>checked <% } %> disabled>
                     <label class="btn btn-outline-primary" for="checkbox10">Volunteer</label>
 
                     <input type="hidden" name="checkbox_value11" value="11">
-                    <input type="checkbox" class="btn-check" id="checkbox11" name="checkbox11">
+                    <input type="checkbox" class="btn-check" id="checkbox11" name="checkbox11" <% if (checkbox11Checked) { %>checked <% } %> disabled>
                     <label class="btn btn-outline-primary" for="checkbox11">Healthy Food</label>
 
                     <input type="hidden" name="checkbox_value12" value="12">
-                    <input type="checkbox" class="btn-check" id="checkbox12" name="checkbox12">
+                    <input type="checkbox" class="btn-check" id="checkbox12" name="checkbox12" <% if (checkbox12Checked) { %>checked <% } %> disabled>
                     <label class="btn btn-outline-primary" for="checkbox12">Hungry</label>
                     </div>
                 </div>
@@ -140,11 +140,9 @@
             <!-- Text Box after Button Group -->
             <div class="mb-3">
                 <label for="textBox" class="form-label">Notes</label>
-                <textarea class="form-control" id="notes" name="notes" rows="3"></textarea>
+                <textarea class="form-control" id="notes" name="notes" rows="3"><%= notes %></textarea disabled>
             </div>
         
-            <button type="submit" class="btn btn-primary">Save Snapshot</button>
-            </form>
         </div>
     </section>
 

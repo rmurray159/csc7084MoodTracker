@@ -21,7 +21,31 @@ exports.getAddNewSnapshot = (req, res) => {
 
 // get select snapshot
 
-// handle form submission of a new snapshot 
+// get summary snapshot
+exports.getSummarySnapshot = (req, res) => {
+
+    const { snapshotId } = req.params;
+    const vals =[ snapshotId ]
+    console.log(snapshotId);
+
+    const selectSQL = `SELECT * FROM snapshot
+                        INNER JOIN snapshot_trigger ON 
+                        snapshot.snapshot_id = snapshot_trigger.snapshot_id
+                        WHERE snapshot.snapshot_id = ?`;
+
+    conn.query(selectSQL, vals, (err, snapshotdetail) => {
+        if (err) {
+            throw err;
+        } else {
+            console.log('info from database for snapshot detail');
+            console.log(snapshotdetail);
+            res.render('snapshotsummary', { details: snapshotdetail });
+        }
+    });
+    
+}
+
+// post  new snapshot 
 exports.postNewSnapshot = (req, res) => {
     const user_id = 1; // will need to get this from the session when it's done
     const { slider1, slider2, slider3, slider4, slider5, slider6, slider7, notes } = req.body;
@@ -81,18 +105,16 @@ exports.postNewSnapshot = (req, res) => {
 
                 console.log('Checkbox values inserted into the database:', checkboxResult);
                 // Send a response to the client or perform additional actions as needed
-                //res.status(200).send('Snapshot and checkbox data inserted successfully');
-                const data = req.body;
-                console.log(data);
-                res.render('snapshotsummary', data);
+                //console.log(snapshotId);
+                res.redirect(`/summary/${snapshotId}`);
+                
             });
         } else {
         // No checkboxes selected, proceed without inserting checkbox values
         // Send a response to the client or perform additional actions as needed
-         //res.status(200).send('Snapshot data inserted successfully');
-         const data = req.body;
-         console.log(data);
-         res.render('snapshotsummary', data);
+        //console.log(snapshotId);    
+        res.redirect(`/summary/${snapshotId}`);
+         
     }
 
   });
