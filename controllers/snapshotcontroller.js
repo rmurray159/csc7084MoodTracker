@@ -12,14 +12,53 @@ exports.getHomepage = (req, res) => {
 
 // get register page 
 
-// get snapshots 
+// get snapshot list
+exports.getSnapshotList = (req, res) => {
+    const user_id = 1; // will need to get this from the session when it's done
+    const vals = [user_id];
+    const selectSQL = `SELECT * FROM snapshot  WHERE user_id = ? ORDER BY timestamp DESC`;
+    
+    conn.query(selectSQL, vals, (err, snapshotlist) => {
+        if (err) {
+            throw err;
+        }
+        console.log('info from database for snapshot list');
+        console.log(snapshotlist);
+        res.render('snapshotlist', { snapshots: snapshotlist });
+    });
+};
+
+
 
 // get add new snapshot
 exports.getAddNewSnapshot = (req, res) => {
     res.render('addsnapshot');
 }
 
-// get select snapshot
+// get selected snapshot
+exports.selectSnapshot = (req, res) => {
+    console.log('params from list page');
+    console.log(req.params);
+    const snapshotId = req.params.snapshotid;
+    const vals =[ snapshotId ]
+    console.log(snapshotId);
+
+    const selectSQL = `SELECT * FROM snapshot
+                        INNER JOIN snapshot_trigger ON 
+                        snapshot.snapshot_id = snapshot_trigger.snapshot_id
+                        WHERE snapshot.snapshot_id = ?`;
+
+    conn.query(selectSQL, vals, (err, snapshotdetail) => {
+        if (err) {
+            throw err;
+        } else {
+            console.log('info from database for snapshot detail');
+            console.log(snapshotdetail);
+            res.render('singledetail', { details: snapshotdetail });
+        }
+    });
+    
+}
 
 // get summary snapshot
 exports.getSummarySnapshot = (req, res) => {
