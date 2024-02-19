@@ -1,4 +1,6 @@
 const express = require('express');
+const bodyParser = require('body-parser');
+const bcrypt = require('bcrypt');
 const morgan = require('morgan');
 const dotenv = require('dotenv').config({ path: './config.env'});
 const router = require('./routes/snapshotroutes');
@@ -11,6 +13,7 @@ app.use(morgan('tiny'));
 // access to stylesheets, images 
 app.use(express.static(path.join(__dirname, '/public')));
 app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/', router);
 app.use('/', userRouter);
 // set the current template engine
