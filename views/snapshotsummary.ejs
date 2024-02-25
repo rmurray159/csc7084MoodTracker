@@ -34,7 +34,7 @@
                 <a class="nav-link" href="#">Stats</a>
               </li>
             </ul>
-            <button type="button" class="btn btn-outline-secondary btn-lg px-4">Log Out</button>
+            <a href="/logout" class="btn btn-outline-secondary btn-lg px-4">Log Out</a>
           </div>
         </div>
     </nav>
@@ -60,6 +60,7 @@
               <% var formattedTime = inputdate.toLocaleTimeString(); %>
           <% } %>
 
+        
           <h2 class="text-center"><%= formattedDate %> <%= formattedTime %> </h2>
 
           <!-- Heading for Sliders -->
@@ -153,12 +154,13 @@
 
           </div>
 
+
           <!-- Text Box after Button Group -->
           <div class="mb-3">
             <label for="textBox" class="form-label">Notes</label>
             <textarea class="form-control" id="notes" name="notes" rows="3" readonly><%= notes %></textarea>
           </div>
-
+        
        </div>
     </section>
    

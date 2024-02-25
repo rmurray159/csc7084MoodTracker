@@ -3,9 +3,20 @@ const conn = require('./../util/dbconn');
 
 // put the get and post requests in here for the snapshot routes
 
+// get add new snapshot
+exports.getAddNewSnapshot = (req, res) => {
+    const { isLoggedIn, user } = req.session;
+    console.log(`User logged in: ${isLoggedIn ? 'yes' : 'no'}`);
+    res.render('addsnapshot', { isLoggedIn, loggedInUser: user, errorMessage, validationResult });
+}
+
 // get snapshot list
 exports.getSnapshotList = (req, res) => {
-    const user_id = 1; // will need to get this from the session when it's done
+    const { isLoggedIn, user } = req.session;
+    console.log(`User logged in: ${isLoggedIn ? 'yes' : 'no'}`);
+    //retrieve user_id from session
+    const user_id = req.session.user_id;
+    console.log('user_id from session:', user_id);
     const vals = [user_id];
     const selectSQL = `SELECT * FROM snapshot  WHERE user_id = ? ORDER BY timestamp DESC`;
     
@@ -14,16 +25,13 @@ exports.getSnapshotList = (req, res) => {
             throw err;
         }
         console.log('info from database for snapshot list');
-        //console.log(snapshotlist);
-        res.render('snapshotlist', { snapshots: snapshotlist });
+        console.log(snapshotlist);
+        res.render('snapshotlist', { snapshots: snapshotlist, isLoggedIn, loggedInUser: user});
     });
 };
 
 
-// get add new snapshot
-exports.getAddNewSnapshot = (req, res) => {
-    res.render('addsnapshot');
-}
+
 
 // get selected snapshot to delete
 exports.getDeleteSingleSnapshot = (req, res) => {
@@ -77,6 +85,8 @@ exports.getEditSnapshot = (req, res) => {
 
 // get summary snapshot
 exports.getSummarySnapshot = (req, res) => {
+    const { isLoggedIn, user } = req.session;
+    console.log(`User logged in: ${isLoggedIn ? 'yes' : 'no'}`);
 
     const { snapshotId } = req.params;
     const vals =[ snapshotId ]
@@ -93,7 +103,7 @@ exports.getSummarySnapshot = (req, res) => {
         } else {
             console.log('info from database for snapshot detail');
             console.log(snapshotdetail);
-            res.render('snapshotsummary', { details: snapshotdetail });
+            res.render('snapshotsummary', { details: snapshotdetail, isLoggedIn, loggedInUser: user});
         }
     });
     
@@ -101,7 +111,20 @@ exports.getSummarySnapshot = (req, res) => {
 
 // post  new snapshot 
 exports.postNewSnapshot = (req, res) => {
-    const user_id = 1; // will need to get this from the session when it's done
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).render('addsnapshot', { errors: errors.array(), message: null });
+    }
+
+    // Custom validation errors
+    const allowedCharacters = /^[a-zA-Z0-9@#$%^&*()_+{}\[\]:;<>,.?~\\/-]+$/;
+    if (!allowedCharacters.test(req.body.notes)) {
+        const errorMessage = 'Notes contains disallowed characters';
+        return res.render('addsnapshot', { errorMessage, /* other context data */ });
+    }
+    
+    const user_id = req.session.user_id;
     const { slider1, slider2, slider3, slider4, slider5, slider6, slider7, notes } = req.body;
 
     console.log('Received form data:', req.body);

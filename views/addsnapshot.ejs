@@ -34,15 +34,23 @@
                 <a class="nav-link" href="#">Stats</a>
               </li>
             </ul>
-            <button type="button" class="btn btn-outline-secondary btn-lg px-4">Log Out</button>
+            <a href="/logout" class="btn btn-outline-secondary btn-lg px-4">Log Out</a>
           </div>
         </div>
     </nav>
    
     <section class="gradient-background">
         <div class="container mt-5">
-            <h2 class="text-center">Good afternoon, how are you feeling this?</h2>
+          <% if (isLoggedIn) { %>
+            <h2 class="text-center">Good afternoon, <%= loggedInUser.first_name %>. How are you feeling?</h2>
             <form method="post" action="/new">
+          
+              <!-- Custom error message -->
+              <% if (errorMessage) { %>
+                <div class="alert alert-danger" role="alert">
+                  <%= errorMessage %>
+                </div>
+              <% } %>
             <!-- Heading for Sliders -->
             <div class="mb-3">
                 <h4>Emotion Snapshot</h4>
@@ -145,6 +153,7 @@
         
             <button type="submit" class="btn btn-primary">Save Snapshot</button>
             </form>
+          <% } %>
         </div>
     </section>
 

@@ -39,7 +39,12 @@
         </div>
     </nav>
     <section class="gradient-background">
+      
     <div class="container mt-5">
+      <div>
+        <h1>Your Snapshots</h1>
+      </div>
+      <br>
         <div class="row">
           <% const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }; %>
           <% snapshots.forEach((snapshotlist) => { %>
@@ -54,9 +59,6 @@
             <% var rawdate = new Date(snapshotlist.timestamp); %>
             <% var formattedDate = rawdate.toLocaleDateString('en-GB', options); %>
             <% var formattedTime = rawdate.toLocaleTimeString(); %>
-
-        
-
             <div class="col-md-4">
               <div class="card">
                 <div class="card-body">

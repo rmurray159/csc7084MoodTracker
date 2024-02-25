@@ -4,6 +4,9 @@ const conn = require('./../util/dbconn');
 // bcrypt for password hashing
 const bcrypt = require('bcrypt');
 
+// using express validator
+const { validationResult } = require('express-validator');  
+
 // put the get and post requests in here for the user routes
 
 // get landing page (index) 
@@ -13,16 +16,18 @@ exports.getHomepage = (req, res) => {
 
 // get login page
 exports.getLogin = (req, res) => {
-    res.render('login');
+    const message = req.query.error;
+    res.render('login', { errors: null, message });
 };
 
 exports.getRegister = (req, res) => {
-    // You can include other logic if needed
-
     // Check if there is an error message passed as a query parameter
     const message = req.query.error;
 
-    res.render('register', { message });
+    // using express-validator, get the validation errors
+    const errors = validationResult(req).array();
+
+    res.render('register', { errors, message });
 };
 
 //get register success page
@@ -30,25 +35,26 @@ exports.getRegisterSuccess = (req, res) => {
     res.render('registersuccess');
 };
 
-//get logout page   
+//get logout  
 exports.getLogout = (req, res) => {
-    res.render('logout');
+    req.session.destroy(() => {
+        console.log('User logged out');
+        res.redirect('/');
+    });
 };
-
-
 
 
 // post register page
 exports.postRegister = (req, res) => {
-    const { first_name, last_name, email_address, password } = req.body;
-    console.log(req.body);
-    // server side validation
-    if (!first_name || !last_name || !email_address || !password) {
-        console.log('Validation failed - Please provide all fields');
-        const message = "Please provide all fields";
-        return res.status(400).redirect('/register?error=' + encodeURIComponent(message));
+
+    const errors = validationResult(req);
+    console.log(errors.array());
+    if (!errors.isEmpty()) {
+        return res.status(422).render('register', { errors: errors.array(), message: null });
     }
 
+    const { first_name, last_name, email_address, password } = req.body;
+    console.log(req.body);
     
     // check if email exists
     const checkemailSQL = `SELECT email_address FROM user WHERE email_address = ?`;
@@ -83,3 +89,65 @@ exports.postRegister = (req, res) => {
     }
     );
 }
+
+// post login page
+exports.postLogin = (req, res) => {
+    const errors = validationResult(req);
+    console.log(errors.array());
+    if (!errors.isEmpty()) {
+        return res.status(422).render('login', { errors: errors.array(), message: null });
+    }
+
+    const { email_address, password } = req.body;
+    const vals = [email_address, password];
+    console.log(vals);
+
+    // check if email exists
+    const checkemailSQL = `SELECT * FROM user WHERE email_address = ?`;
+    conn.query(checkemailSQL, [email_address], (err, results) => {
+        console.log(results);
+        if (err) {
+            console.error('Error checking email existence:', err);
+            throw err;
+        }
+        if (results.length === 0) {
+            console.log('Email does not exist');
+            const message = "Email does not exist";
+            return res.redirect('/login?error=' + encodeURIComponent(message));
+        }
+
+        // compare the password
+        bcrypt.compare(password, results[0].password, (err, result) => {
+            if (err) {
+                throw err;
+            }
+            if (result) {
+                console.log('Password match');
+                // set session
+                const session = req.session;
+                session.isLoggedIn = true;
+                session.user_id = results[0].user_id;
+                const loggedInUser = results[0];
+                req.session.user = loggedInUser;
+
+                console.log(session);
+
+                // set original url
+                var originalUrl = req.session.route;
+                console.log(`postLogin: originalUrl: ${originalUrl}`);
+
+                if (!originalUrl) {
+                    originalUrl = '/new';
+                }  else {
+                    originalUrl = originalUrl;
+                }
+                
+                return res.redirect(`${originalUrl}`);
+            } else {
+                console.log('Password does not match');
+                const message = "Password does not match";
+                return res.status(422).render('login', { errors: null, message: message });
+            }
+        });
+    });
+};
