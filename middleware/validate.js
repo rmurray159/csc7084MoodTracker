@@ -1,4 +1,4 @@
-/*
+
 const allowedCharacters = /^[a-zA-Z0-9@#$%^&*()_+{}\[\]:;<>,.?~\\/-]+$/;
 
 // validateInput middleware
@@ -12,4 +12,4 @@ exports.validateInput = (req, res, next) => {
 
     next();
 };
-*/
+

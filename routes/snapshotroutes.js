@@ -1,9 +1,9 @@
 const express = require('express');
 const controller = require('./../controllers/snapshotcontroller');
 const { isAuth } = require('./../middleware/auth');
-/*
+
 const { validateInput } = require('./../middleware/validate');
-*/
+
 const { check } = require('express-validator');
 
 
@@ -15,7 +15,7 @@ router.get('/list', isAuth, controller.getSnapshotList);
 router.get('/del/:snapshotid', isAuth, controller.getDeleteSingleSnapshot);
 router.get('/edit/:snapshotid', isAuth, controller.getEditSnapshot);
 
-router.post('/new', isAuth, 
+router.post('/new', isAuth, validateInput,
     [
         check('notes')
             .isLength({ max: 500 }) // set max length of notes to 500

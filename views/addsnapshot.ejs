@@ -42,15 +42,16 @@
     <section class="gradient-background">
         <div class="container mt-5">
           <% if (isLoggedIn) { %>
-            <h2 class="text-center">Good afternoon, <%= loggedInUser.first_name %>. How are you feeling?</h2>
+            <h2 class="text-center">Hello, <%= loggedInUser.first_name %>. How are you feeling?</h2>
             <form method="post" action="/new">
-          
-              <!-- Custom error message -->
-              <% if (errorMessage) { %>
-                <div class="alert alert-danger" role="alert">
-                  <%= errorMessage %>
-                </div>
-              <% } %>
+
+            <!-- Error message area for validation errors --> 
+            <% if (errorMessage) { %>
+              <div class="alert alert-danger" role="alert">
+                <%= decodeURIComponent(errorMessage) %>
+              </div>
+            <% } %>
+
             <!-- Heading for Sliders -->
             <div class="mb-3">
                 <h4>Emotion Snapshot</h4>
@@ -166,12 +167,6 @@
           var valueSpan = document.getElementById(spanId);
           valueSpan.textContent = slider.value;
         }
-
-        // // Calculate the percentage value for the gradient
-        // var percentage = (slider.value / slider.max) * 100;
-
-        // // Set the custom property based on the sliderId
-        // document.documentElement.style.setProperty(`--${sliderId}Percentage`, `${percentage}%`);
       </script>
 
   </body>

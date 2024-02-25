@@ -1,13 +1,17 @@
 // connection to database
 const conn = require('./../util/dbconn'); 
 
+// using express validator
+const { validationResult } = require('express-validator');  
+
 // put the get and post requests in here for the snapshot routes
 
 // get add new snapshot
 exports.getAddNewSnapshot = (req, res) => {
     const { isLoggedIn, user } = req.session;
+    const errorMessage = req.query.error;
     console.log(`User logged in: ${isLoggedIn ? 'yes' : 'no'}`);
-    res.render('addsnapshot', { isLoggedIn, loggedInUser: user, errorMessage, validationResult });
+    res.render('addsnapshot', { isLoggedIn, loggedInUser: user, errorMessage });
 }
 
 // get snapshot list
@@ -117,11 +121,11 @@ exports.postNewSnapshot = (req, res) => {
         return res.status(422).render('addsnapshot', { errors: errors.array(), message: null });
     }
 
-    // Custom validation errors
-    const allowedCharacters = /^[a-zA-Z0-9@#$%^&*()_+{}\[\]:;<>,.?~\\/-]+$/;
-    if (!allowedCharacters.test(req.body.notes)) {
-        const errorMessage = 'Notes contains disallowed characters';
-        return res.render('addsnapshot', { errorMessage, /* other context data */ });
+    // Check for error query parameter
+    const errorMessage = req.query.error;
+    if (errorMessage) {
+        // Handle the error message (e.g., display it in the view)
+        return res.render('addsnapshot', { errorMessage });
     }
     
     const user_id = req.session.user_id;
