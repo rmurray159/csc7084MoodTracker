@@ -22,6 +22,7 @@ app.use(session({
 }));
 app.use('/', router);
 app.use('/', userRouter);
+
 // set the current template engine
 app.set('view engine', 'ejs');
 

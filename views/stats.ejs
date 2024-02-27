@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    
+    <!-- Chart.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js" integrity="sha512-ZwR1/gSZM3ai6vCdI+LVF1zSq/5HznD3ZSTk7kajkaj4D292NLuduDCO1c/NT8Id+jE58KYLKT7hXnbtryGmMg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+    <link rel="stylesheet" href="/style.css">
+    <title>Snapshot Stats</title>
+    <style>
+    </style>
+
+  </head>
+  <body>
+
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#"><img src="/img/emoji-smile.svg" alt="smile emoji" height="30px">MoodMinder</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link"  href="/new">Add Snapshot</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/list">Entries</a>
+              </li>
+    
+              <li class="nav-item">
+                <a class="nav-link" href="/stats">Stats</a>
+              </li>
+            </ul>
+            <a href="/logout" class="btn btn-outline-secondary btn-lg px-4">Log Out</a>
+          </div>
+        </div>
+    </nav>
+
+    <section class="gradient-background">
+      <div class="container mb-3">
+        <h1 class="text-center">Emotion Tracking Over Time</h1>
+        <div class="container mb-3">
+          <canvas id="emotionChart" width="800" height="400"></canvas>
+        </div>
+      </div>
+    </section>
+  
+    <script>
+      // Fetching the data from the server
+      const xdata = `<%- JSON.stringify(labels) %>`;
+      const xlabels = JSON.parse(xdata);
+
+      const ydata = `<%- JSON.stringify(data) %>`;
+      const ylabels = JSON.parse(ydata);
+      // Formatting timestamps into a more readable format
+      const formattedLabels = xlabels.map(timestamp => {
+      const date = new Date(timestamp);
+      return new Intl.DateTimeFormat('en-GB', { dateStyle: 'short', timeStyle: 'short' }).format(date);
+      });
+
+      // Creating the chart
+      const ctx = document.getElementById('emotionChart').getContext('2d');
+      const myChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+              labels: formattedLabels,
+              datasets: [
+                {
+                  label: 'Enjoyment Level',
+                  data: ylabels.map(entry => entry[0]),
+                  fill: false,
+                  borderColor: ' #eaaf24',
+                  tension: 0.1
+                },
+                {
+                  label: 'Surprise Level',
+                  data: ylabels.map(entry => entry[1]),
+                  fill: false,
+                  borderColor: '#3cafaf',
+                  tension: 0.1
+                },
+                {
+                  label: 'Contempt Level',
+                  data: ylabels.map(entry => entry[2]),
+                  fill: false,
+                  borderColor: '#b76c51',
+                  tension: 0.1
+                },
+                {
+                  label: 'Sadness Level',
+                  data: ylabels.map(entry => entry[3]),
+                  fill: false,
+                  borderColor: '#406aad',
+                  tension: 0.1
+                },
+                {
+                  label: 'Fear Level',
+                  data: ylabels.map(entry => entry[4]),
+                  fill: false,
+                  borderColor: '#5b3988',
+                  tension: 0.1
+                },
+                {
+                  label: 'Disgust Level',
+                  data: ylabels.map(entry => entry[5]),
+                  fill: false,
+                  borderColor: '#649941',
+                  tension: 0.1
+                },
+                {
+                  label: 'Anger Level',
+                  data: ylabels.map(entry => entry[6]),
+                  fill: false,
+                  borderColor: '#a03d3e',
+                  tension: 0.1
+                }
+            // Repeat the above block for each emotion (Sadness Level, Fear Level, Disgust Level, Anger Level)
+          ]
+      },
+      options: {
+          scales: {
+              x: {
+                  ticks: {
+                      maxRotation: 60,  // Set max rotation to 0 degrees
+                      minRotation: 60   // Set min rotation to 0 degrees
+                  }
+              },
+              y: {
+                  beginAtZero: true,
+                  max: 10  // Set the maximum value for the y-axis
+              }
+          },
+          plugins: {
+              legend: {
+                  labels: {
+                      fontColor: 'black'  // Set legend label color to black
+                  }
+              }
+          },
+          elements: {
+              point: {
+                  pointStyle: 'rectRounded',
+                  radius: 5,
+                  backgroundColor: 'rgb(75, 192, 192)',  // Set point color
+                  borderColor: 'rgb(75, 192, 192)',  // Set point border color
+                  borderWidth: 2
+              }
+          },
+          responsive: true,
+          maintainAspectRatio: false,
+          backgroundColor: 'white'  // Set the background color of the chart container to white
+      }
+  });
+  
+     
+    </script>
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+  </body>
+</html>

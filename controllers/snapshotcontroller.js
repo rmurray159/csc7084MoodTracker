@@ -34,6 +34,26 @@ exports.getSnapshotList = (req, res) => {
     });
 };
 
+// get snapshot stats
+exports.getSnapshotStats = (req, res) => {
+    const { isLoggedIn, user } = req.session;
+    console.log(`User logged in: ${isLoggedIn ? 'yes' : 'no'}`);
+    //retrieve user_id from session
+    const user_id = req.session.user_id;
+    console.log('user_id from session:', user_id);
+    const vals = [user_id];
+    const selectSQL = `SELECT * FROM snapshot  WHERE user_id = ? ORDER BY timestamp`;
+    
+    conn.query(selectSQL, vals, (err, results) => {
+        if (err) throw err;
+
+        const labels = results.map(entry => entry.timestamp);
+        const data = results.map(entry => [ entry.enjoyment_level, entry.surprise_level, entry.contempt_level, entry.sadness_level, entry.fear_level, entry.disgust_level, entry.anger_level ]);
+        
+        res.render('stats', { labels, data, isLoggedIn, loggedInUser: user});
+    });
+};
+
 
 
 

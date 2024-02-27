@@ -41,32 +41,51 @@
         <% } %>
       
         <div class="form-floating mb-3">
-          <label for="validationFirstName" class="form-label">First Name</label>
-          <input type="text" class="form-control" id="first_name" name="first_name" placeholder="First Name" required>
+          <input type="text" class="form-control" id="first_name" name="first_name" placeholder=" " required>
+          <label for="first_name" class="form-label">First Name</label>
+          <div class="invalid-feedback">
+            Required field.
+          </div>
           <div class="valid-feedback">
             Looks good!
           </div>
         </div>
+        
 
         <div class="form-floating mb-3">
+          <input type="text" class="form-control" id="last_name" name="last_name" placeholder=" " required>
           <label for="validationLastName" class="form-label">Last Name</label>
-          <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last Name" required>
+          <div class="invalid-feedback">
+            Required field.
+          </div>
           <div class="valid-feedback">
             Looks good!
           </div>
         </div>
 
         <div class="form-floating mb-3">
-          <label for="validationEmail" class="form-label">Email</label>
-          <input type="email" class="form-control" id="email_address" name="email_address" placeholder="name@example.com">
+          <input type="email" class="form-control" id="email_address" name="email_address" placeholder="Email" required>
+          <label for="email_address" class="form-label">Email</label>
+          <span class="placeholder-text">name@example.com</span>
           <div class="invalid-feedback">
             Please enter a valid email address.
           </div>
+          <div class="valid-feedback">
+            Looks good!
+          </div>
         </div>
-
+        
         <div class="form-floating mb-3">
-          <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+          <input type="password" class="form-control" id="password" name="password" placeholder="Password" minlength="3" required>
           <label for="password">Password</label>
+          <span class="placeholder-text">Min 3 characters</span>
+          <div class="invalid-feedback">
+            Please enter a valid password.
+          </div>
+          <div class="valid-feedback">
+            Looks good!
+          </div>
+
         </div>
           
         <br>
@@ -77,6 +96,7 @@
         <p class="mt-5 mb-3 text-body-secondary">Already have an account?</p>  
         <a href="/login" class="icon-link">
           Log In
+          <img src="/img/chevron-right.svg" alt="chevron-right">
           
         </a>
       </div>
