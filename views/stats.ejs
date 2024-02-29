@@ -49,6 +49,15 @@
           <canvas id="emotionChart" width="800" height="400"></canvas>
         </div>
       </div>
+   
+    </section>
+    <section class="gradient-background">
+      <div class="container mb-3">
+        <h1 class="text-center">Top Triggers</h1>
+        <div class="container mb-3">
+          <canvas id="topTriggersChart" width="800" height="400"></canvas>
+        </div>
+      </div>
     </section>
   
     <script>
@@ -120,7 +129,6 @@
                   borderColor: '#a03d3e',
                   tension: 0.1
                 }
-            // Repeat the above block for each emotion (Sadness Level, Fear Level, Disgust Level, Anger Level)
           ]
       },
       options: {
@@ -157,8 +165,94 @@
           backgroundColor: 'white'  // Set the background color of the chart container to white
       }
   });
+
+  //function to map trigger ids to trigger names
+  function mapTriggerIdsToNames(triggerIds) {
+    switch (triggerIds) {
+      case 1:
+        return 'Family';
+      case 2:
+        return 'Work';
+      case 3:
+        return 'Sleep';
+      case 4:
+        return 'Exercise';
+      case 5:
+        return 'Weather';
+      case 6:
+        return 'Friends';
+      case 7:
+        return 'Date';
+      case 8:
+        return 'Study';
+      case 9:
+        return 'Holiday';
+      case 10:  
+        return 'Volunteer';
+      case 11:
+        return 'Healthy Food';
+      case 12:
+        return 'Hungry';
+      default:
+        return`Trigger ${triggerIds}`;
+    }
+  }
   
-     
+  
+
+  // Fetching the trigger data from the server
+  const triggerLabels = <%- JSON.stringify(triggerLabels) %>;
+  const triggerData = <%- JSON.stringify(triggerData) %>;
+
+  //map trigger ids to trigger names
+  const mappedTriggerLabels = triggerLabels.map(mapTriggerIdsToNames);
+
+  const chartData = {
+    labels: mappedTriggerLabels,
+    datasets: [{
+      label: 'Trigger Counts',
+      data: triggerData,
+      backgroundColor: 'rgba(75, 192, 192, 0.5)',
+      borderColor: 'rgba(75, 192, 192, 1)',
+      borderWidth: 1,
+    }]
+  };
+
+      const config = {
+        type: 'bar',
+        data: chartData,
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            x: {
+              title: {
+                display: true,
+                text: 'Triggers'
+              }
+            },
+            y: {
+              beginAtZero: true,
+              title: {
+                display: true,
+                text: 'Count'
+              },
+              ticks: {
+                stepSize: 1,
+                min: 0
+              }
+            }
+          },
+          plugins: {
+            legend: { display: false },
+            tooltip: { enabled: true },
+            
+          }
+        }
+      };
+
+      const ctbar = document.getElementById('topTriggersChart').getContext('2d');
+      const topTriggersChart = new Chart(ctbar, config);
     </script>
     
     

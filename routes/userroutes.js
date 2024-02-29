@@ -14,11 +14,13 @@ router.post('/register',
     [
         check('first_name')
             .exists({checkFalsy: true}).withMessage('Please enter your first name')
-            .isLength({ min: 1 }).withMessage('First name must be at least 1 character long'),
+            .isLength({ min: 1 }).withMessage('First name must be at least 1 character long')
+            .isAlpha().withMessage('First name must be alphabetic'),
 
         check('last_name')
             .exists({checkFalsy: true}).withMessage('Please enter your last name')    
-            .isLength({ min: 1 }).withMessage('Last name must be at least 1 character long'),
+            .isLength({ min: 1 }).withMessage('Last name must be at least 1 character long')
+            .isAlpha().withMessage('Last name must be alphabetic'),
 
         check('email_address')
             .exists({checkFalsy: true}).withMessage('Please enter your email address')

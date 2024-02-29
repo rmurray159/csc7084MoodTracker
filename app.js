@@ -6,6 +6,7 @@ const dotenv = require('dotenv').config({ path: './config.env'});
 const session = require('express-session');
 const router = require('./routes/snapshotroutes');
 const userRouter = require('./routes/userroutes');
+const helmet = require('helmet');
 const path = require('path');
 
 const app = express();
@@ -19,6 +20,19 @@ app.use(session({
     secret: 'mysecretstring123',
     resave: false,
     saveUninitialized: false
+}));
+
+app.use(helmet({
+    contentSecurityPolicy: {
+        directives: {
+            defaultSrc: ["'self'"],
+            scriptSrc: ["'self'", "https://code.jquery.com", "https://cdn.jsdelivr.net", "https://cdnjs.cloudflare.com", "'unsafe-inline'"],
+            styleSrc: ["'self'", "https://cdn.jsdelivr.net", "https://cdnjs.cloudflare.com", "https://cdnjs.cloudflare.com", "'unsafe-inline'"],
+            fontSrc: ["'self'", "https://fonts.gstatic.com"],
+            imgSrc: ["'self'", "https://www.google.com"]
+        }
+    }
+
 }));
 app.use('/', router);
 app.use('/', userRouter);

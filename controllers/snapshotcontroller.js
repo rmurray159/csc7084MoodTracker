@@ -42,15 +42,29 @@ exports.getSnapshotStats = (req, res) => {
     const user_id = req.session.user_id;
     console.log('user_id from session:', user_id);
     const vals = [user_id];
-    const selectSQL = `SELECT * FROM snapshot  WHERE user_id = ? ORDER BY timestamp`;
-    
+    const selectSQL = `SELECT * FROM snapshot
+                            INNER JOIN snapshot_trigger ON
+                            snapshot.snapshot_id = snapshot_trigger.snapshot_id
+                            WHERE snapshot.user_id = ? ORDER BY timestamp`;
+
     conn.query(selectSQL, vals, (err, results) => {
         if (err) throw err;
 
         const labels = results.map(entry => entry.timestamp);
         const data = results.map(entry => [ entry.enjoyment_level, entry.surprise_level, entry.contempt_level, entry.sadness_level, entry.fear_level, entry.disgust_level, entry.anger_level ]);
-        
-        res.render('stats', { labels, data, isLoggedIn, loggedInUser: user});
+
+        // fetch triggers and their counts 
+        const triggerSQL = `SELECT trigger_id, COUNT(*) as count FROM snapshot_trigger WHERE snapshot_id IN (SELECT snapshot_id FROM snapshot WHERE user_id = ?) GROUP BY trigger_id ORDER BY count DESC LIMIT 5`;
+        conn.query(triggerSQL, vals, (err, triggerResults) => {
+            if (err) throw err;
+            console.log('Trigger results:', triggerResults);
+            const triggerLabels = triggerResults.map(entry => entry.trigger_id);
+            const triggerData = triggerResults.map(entry => entry.count);
+            console.log('Trigger labels:', triggerLabels);
+            console.log('Trigger data:', triggerData);
+            res.render('stats', { labels, data, triggerLabels, triggerData, isLoggedIn, loggedInUser: user});
+            
+        });
     });
 };
 
