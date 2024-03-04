@@ -15,29 +15,8 @@
   </head>
   <body>
 
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#"><img src="/img/emoji-smile.svg" alt="smile emoji" height="30px">MoodMinder</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link"  href="/new">Add Snapshot</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/list">Entries</a>
-              </li>
-    
-              <li class="nav-item">
-                <a class="nav-link" href="/stats">Stats</a>
-              </li>
-            </ul>
-            <a href="/logout" class="btn btn-outline-secondary btn-lg px-4">Log Out</a>
-          </div>
-        </div>
-    </nav>
+    <%- include('_navin') %>
+
     <section class="gradient-background">
       
     <div class="container mt-5">
@@ -63,13 +42,13 @@
               <div class="card">
                 <div class="card-body">
                   <h5 class="card-title"><%= formattedDate %> <%= formattedTime %></h5>
-                  <p class="card-text">Enjoyment: <%= enjoyment_level %></p>
-                  <p class="card-text">Surprise: <%= surprise_level %></p>
-                  <p class="card-text">Contempt: <%= contempt_level %></p>
-                  <p class="card-text">Sadness: <%= sadness_level %></p>
-                  <p class="card-text">Fear: <%= fear_level %></p>
-                  <p class="card-text">Disgust: <%= disgust_level %></p>
-                  <p class="card-text">Anger: <%= anger_level %></p>
+                  <p class="card-text"><img src="/img/enjoyment.svg" alt="Enjoyment Emoji" height="20" style="margin-right: 10px;">Enjoyment: <%= enjoyment_level %></p>
+                  <p class="card-text"><img src="/img/surprise.svg" alt="Surprise Emoji" height="20" style="margin-right: 10px;">Surprise: <%= surprise_level %></p>
+                  <p class="card-text"><img src="/img/contempt.svg" alt="Contempt Emoji" height="20" style="margin-right: 10px;">Contempt: <%= contempt_level %></p>
+                  <p class="card-text"><img src="/img/sad.svg" alt="Sad Emoji" height="20" style="margin-right: 10px;">Sadness: <%= sadness_level %></p>
+                  <p class="card-text"><img src="/img/fear.svg" alt="Fear Emoji" height="20" style="margin-right: 10px;">Fear: <%= fear_level %></p>
+                  <p class="card-text"><img src="/img/disgust.svg" alt="Disgust Emoji" height="20" style="margin-right: 10px;">Disgust: <%= disgust_level %></p>
+                  <p class="card-text"><img src="/img/angry.svg" alt="Anger Emoji" height="20" style="margin-right: 10px;">Anger: <%= anger_level %></p>
                   
                   <a href="/edit/<%= snapshotId %>" class="btn btn-warning">Edit</a>
                   <a href="/del/<%= snapshotId %>" class="btn btn-danger">Delete</a>

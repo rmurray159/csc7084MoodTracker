@@ -18,43 +18,8 @@
   </head>
   <body>
 
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#"><img src="/img/emoji-smile.svg" alt="smile emoji" height="30px">MoodMinder</a>
-        <button class="navbar-toggler custom-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link"  href="/new">Add Snapshot</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/list">Entries</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/stats">Stats</a>
-            </li>
-          </ul>
-          <a href="/logout" class="btn btn-outline-secondary btn-sm px-4">Log Out</a>
-        </div>
-      </div>
-    </nav>
+    <%- include('_navin') %>
     
-    <style>
-      .custom-toggler {
-        border: 1px solid #fff; /* Set border color */
-        color: #fff; /* Set text color */
-        background-color: #007bff; /* Set background color */
-      }
-    
-      .custom-toggler:hover {
-        background-color: #0056b3; /* Set background color on hover */
-      }
-    </style>
-    
-    
-
     <section class="gradient-background">
       <div class="container mb-3">
         <h1 class="text-center">Emotion Tracking Over Time</h1>
