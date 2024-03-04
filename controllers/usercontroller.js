@@ -43,6 +43,12 @@ exports.getLogout = (req, res) => {
     });
 };
 
+// get change password page
+exports.getChangePassword = (req, res) => {
+    const message = req.query.error;
+    res.render('changepassword', { errors: null, message });
+};
+
 
 // post register page
 exports.postRegister = (req, res) => {
@@ -148,6 +154,62 @@ exports.postLogin = (req, res) => {
                 const message = "Password does not match";
                 return res.status(422).render('login', { errors: null, message: message });
             }
+        });
+    });
+};
+
+// post change password page
+exports.postChangePassword = (req, res) => {
+    const errors = validationResult(req);
+    console.log(errors.array());
+
+    if (!errors.isEmpty()) {
+        return res.status(422).render('changepassword', { errors: errors.array(), message: null });
+    }
+
+    const { email_address, current_password, new_password } = req.body;
+    console.log(req.body);
+
+    const validateCredentialsSQL = `SELECT * FROM user WHERE email_address = ?`;
+    conn.query(validateCredentialsSQL, [email_address], (err, results) => {
+        if (err) {
+            console.error('Error validating credentials:', err);
+            return res.status(500).render('changepassword', { errors: null, message: 'Internal Server Error' });
+        }
+
+        if (results.length === 0) {
+            // User with the provided email does not exist
+            return res.status(404).render('changepassword', { errors: null, message: 'Email does not exist' });
+        }
+
+        const storedHashedPassword = results[0].password;
+        bcrypt.compare(current_password, storedHashedPassword, (err, passwordMatch) => {
+            if (err) {
+                console.error('Error comparing passwords:', err);
+                return res.status(500).render('changepassword', { errors: null, message: 'Internal Server Error' });
+            }
+
+            if (!passwordMatch) {
+                // Current password is incorrect
+                return res.status(401).render('changepassword', { errors: null, message: 'Incorrect current password' });
+            }
+
+            bcrypt.hash(new_password, 10, (err, hash) => {
+                if (err) {
+                    console.error('Error hashing new password:', err);
+                    return res.status(500).render('changepassword', { errors: null, message: 'Internal Server Error' });
+                }
+
+                const updateSQL = `UPDATE user SET password = ? WHERE email_address = ?`;
+                conn.query(updateSQL, [hash, email_address], (err, results) => {
+                    if (err) {
+                        console.error('Error updating password:', err);
+                        return res.status(500).render('changepassword', { errors: null, message: 'Internal Server Error' });
+                    }
+
+                    return res.render('login', { errors: null, message: 'Password change successful' });
+                });
+            });
         });
     });
 };

@@ -9,6 +9,7 @@ router.get('/login', userController.getLogin);
 router.get('/register', userController.getRegister);
 router.get('/registersuccess', userController.getRegisterSuccess);
 router.get('/logout', userController.getLogout);
+router.get('/changepassword', userController.getChangePassword);
 
 router.post('/register',
     [
@@ -45,5 +46,26 @@ router.post('/login',
         .isLength({ min: 3 }).withMessage('Password must be at least 3 characters long')
     ],
     userController.postLogin);
+
+router.post('/changepassword',
+    [
+        check('email_address')
+        .exists({checkFalsy: true}).withMessage('Please enter your email address')
+        .isEmail().withMessage('Please enter a valid email address'),
+
+        check('current_password')
+        .exists({checkFalsy: true}).withMessage('Please enter your password')
+        .isLength({ min: 3 }).withMessage('Password must be at least 3 characters long'), 
+
+        check('repeat_password')
+            .exists({ checkFalsy: true }).withMessage('Please repeat your new password')
+            .custom((value, { req }) => {
+                if (value !== req.body.new_password) {
+                    throw new Error('Passwords do not match');
+                }
+                return true;
+            }),
+    ],
+    userController.postChangePassword);
 
 module.exports = router;
