@@ -10,6 +10,8 @@ router.get('/register', userController.getRegister);
 router.get('/registersuccess', userController.getRegisterSuccess);
 router.get('/logout', userController.getLogout);
 router.get('/changepassword', userController.getChangePassword);
+router.get('/about', userController.getAbout);
+router.get('/contact', userController.getContact);
 
 router.post('/register',
     [

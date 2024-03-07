@@ -14,6 +14,16 @@ exports.getHomepage = (req, res) => {
     res.render('index');
 };
 
+// get about page
+exports.getAbout = (req, res) => {
+    res.render('aboutus');
+};
+
+//get contact page
+exports.getContact = (req, res) => {
+    res.render('contact');
+};
+
 // get login page
 exports.getLogin = (req, res) => {
     const message = req.query.error;

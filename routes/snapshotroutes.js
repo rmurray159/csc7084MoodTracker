@@ -16,6 +16,7 @@ router.get('/stats', isAuth, controller.getSnapshotStats);
 router.get('/del/:snapshotid', isAuth, controller.getDeleteSingleSnapshot);
 router.get('/edit/:snapshotid', isAuth, controller.getEditSnapshot);
 
+
 router.post('/new', isAuth, validateInput,
     [
         check('notes')

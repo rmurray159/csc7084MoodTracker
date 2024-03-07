@@ -29,7 +29,7 @@ app.use(helmet({
         scriptSrc: ["'self'", "'unsafe-inline'", "https://code.jquery.com", "https://cdn.jsdelivr.net", "https://cdnjs.cloudflare.com", "http://www.w3.org/2000/svg"],
         styleSrc: ["'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net", "https://cdnjs.cloudflare.com", "http://www.w3.org/2000/svg"],
         fontSrc: ["'self'", "https://fonts.gstatic.com"],
-        imgSrc: ["'self'", "https://www.google.com", "http://www.w3.org/2000/svg"],
+        imgSrc: ["'self'", "https://www.google.com", "http://www.w3.org/2000/svg", "http://www.w3.org/2000/svg"],
         scriptSrcAttr: ["'unsafe-inline'"]
         }
     }
