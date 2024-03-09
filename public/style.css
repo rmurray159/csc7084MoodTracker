@@ -91,6 +91,28 @@ section {
     user-select: none;
   }
 
+  /* Apply the custom styling to all buttons with the class btn-outline-info */
+.btn.btn-outline-info {
+  color: black;
+}
+
+
+.chart-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  row-gap: 20px; /* Adjust as needed for spacing */
+}
+
+.chart-item {
+  text-align: center;
+  background-color: white; /* Set background color to white */
+  z-index: 1; /* Ensure it is above the section content */
+}
+
+
+
+
+
 
 
 

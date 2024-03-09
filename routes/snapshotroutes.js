@@ -17,6 +17,7 @@ router.get('/del/:snapshotid', isAuth, controller.getDeleteSingleSnapshot);
 router.get('/edit/:snapshotid', isAuth, controller.getEditSnapshot);
 
 
+
 router.post('/new', isAuth, validateInput,
     [
         check('notes')
@@ -29,6 +30,8 @@ router.post('/new', isAuth, validateInput,
 
 router.post('/edit/:snapshotid', controller.postEditSnapshot);
 router.post('/del/:snapshotid', controller.postDeleteSnapshot);
+
+
 
 module.exports = router;
 

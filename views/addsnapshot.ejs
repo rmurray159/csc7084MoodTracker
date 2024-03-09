@@ -18,7 +18,7 @@
     <%- include('_navin') %>
    
     <section class="gradient-background">
-        <div class="container mt-5">
+        <div id="snapshot-item" class="container mt-5">
           <% if (isLoggedIn) { %>
             <h1 class="text-center">Hello, <%= loggedInUser.first_name %>. How are you feeling?</h1>
             <form method="post" action="/new">
@@ -91,84 +91,84 @@
 
                       <input type="hidden" name="checkbox_value1" value="1">    
                       <input type="checkbox" class="btn-check" id="checkbox1" name="checkbox1">
-                      <label class="btn btn-info" for="checkbox1">Family</label>
+                      <label class="btn btn-outline-info" for="checkbox1">Family</label>
 
                       <!-- Add space using Bootstrap spacing -->
                       <div class="mx-2"></div>
 
                       <input type="hidden" name="checkbox_value2" value="2">
                       <input type="checkbox" class="btn-check" id="checkbox2" name="checkbox2">
-                      <label class="btn btn-info" for="checkbox2">Work</label>
+                      <label class="btn btn-outline-info" for="checkbox2">Work</label>
 
                       <!-- Add space using Bootstrap spacing -->
                       <div class="mx-2"></div>
               
                       <input type="hidden" name="checkbox_value3" value="3">
                       <input type="checkbox" class="btn-check" id="checkbox3" name="checkbox3">
-                      <label class="btn btn-info" for="checkbox3">Sleep</label>
+                      <label class="btn btn-outline-info" for="checkbox3">Sleep</label>
 
                       <!-- Add space using Bootstrap spacing -->
                       <div class="mx-2"></div>
               
                       <input type="hidden" name="checkbox_value4" value="4">
                       <input type="checkbox" class="btn-check" id="checkbox4" name="checkbox4">
-                      <label class="btn btn-info" for="checkbox4">Exercise</label>
+                      <label class="btn btn-outline-info" for="checkbox4">Exercise</label>
 
                       <!-- Add space using Bootstrap spacing -->
                       <div class="mx-2"></div>
 
                       <input type="hidden" name="checkbox_value5" value="5">
                       <input type="checkbox" class="btn-check" id="checkbox5" name="checkbox5">
-                      <label class="btn btn-info" for="checkbox5">Weather</label>
+                      <label class="btn btn-outline-info" for="checkbox5">Weather</label>
 
                       <!-- Add space using Bootstrap spacing -->
                       <div class="mx-2"></div>
               
                       <input type="hidden" name="checkbox_value6" value="6">
                       <input type="checkbox" class="btn-check" id="checkbox6" name="checkbox6">
-                      <label class="btn btn-info" for="checkbox6">Friends</label>
+                      <label class="btn btn-outline-info" for="checkbox6">Friends</label>
 
                       <!-- Add space using Bootstrap spacing -->
                       <div class="mx-2"></div>
               
                       <input type="hidden" name="checkbox_value7" value="7">
                       <input type="checkbox" class="btn-check" id="checkbox7" name="checkbox7">
-                      <label class="btn btn-info" for="checkbox7">Date</label>
+                      <label class="btn btn-outline-info" for="checkbox7">Date</label>
 
                       <!-- Add space using Bootstrap spacing -->
                       <div class="mx-2"></div>
               
                       <input type="hidden" name="checkbox_value8" value="8">
                       <input type="checkbox" class="btn-check" id="checkbox8" name="checkbox8">
-                      <label class="btn btn-info" for="checkbox8">Study</label>
+                      <label class="btn btn-outline-info" for="checkbox8">Study</label>
 
                       <!-- Add space using Bootstrap spacing -->
                       <div class="mx-2"></div>
               
                       <input type="hidden" name="checkbox_value9" value="9">
                       <input type="checkbox" class="btn-check" id="checkbox9" name="checkbox9">
-                      <label class="btn btn-info" for="checkbox9">Holiday</label>
+                      <label class="btn btn-outline-info" for="checkbox9">Holiday</label>
 
                       <!-- Add space using Bootstrap spacing -->
                       <div class="mx-2"></div>
               
                       <input type="hidden" name="checkbox_value10" value="10">
                       <input type="checkbox" class="btn-check" id="checkbox10" name="checkbox10">
-                      <label class="btn btn-info" for="checkbox10">Volunteer</label>
+                      <label class="btn btn-outline-info" for="checkbox10">Volunteer</label>
 
                       <!-- Add space using Bootstrap spacing -->
                       <div class="mx-2"></div>
 
                       <input type="hidden" name="checkbox_value11" value="11">
                       <input type="checkbox" class="btn-check" id="checkbox11" name="checkbox11">
-                      <label class="btn btn-info" for="checkbox11">Healthy Food</label>
+                      <label class="btn btn-outline-info" for="checkbox11">Healthy Food</label>
 
                       <!-- Add space using Bootstrap spacing -->
                       <div class="mx-2"></div>
 
                       <input type="hidden" name="checkbox_value12" value="12">
                       <input type="checkbox" class="btn-check" id="checkbox12" name="checkbox12">
-                      <label class="btn btn-info" for="checkbox12">Hungry</label>
+                      <label class="btn btn-outline-info" for="checkbox12">Hungry</label>
 
                       <!-- Add space using Bootstrap spacing -->
                       <div class="mx-2"></div>
@@ -193,13 +193,7 @@
   
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
-    <script>
-      function updateSliderValue(sliderId, spanId) {
-          var slider = document.getElementById(sliderId);
-          var valueSpan = document.getElementById(spanId);
-          valueSpan.textContent = slider.value;
-      }
-    </script>
+    <script src="/script.js"></script>
 
     
 

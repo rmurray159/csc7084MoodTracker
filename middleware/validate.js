@@ -1,5 +1,5 @@
 
-const allowedCharacters = /^[a-zA-Z0-9@#$%^&*()_+{}\[\]:;<>,.?~\/ -]+$/;
+const allowedCharacters = /^[a-zA-Z0-9@#$%^&*'()_+{}\[\]:;<>,.?~\/ \n-]+$/;
 
 
 // validateInput middleware

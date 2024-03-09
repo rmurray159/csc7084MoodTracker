@@ -21,22 +21,27 @@
     <%- include('_navin') %>
     
     <section class="gradient-background">
-      <div class="container mb-3">
-        <h1 class="text-center">Emotion Tracking Over Time</h1>
-        <div class="container mb-3">
-          <canvas id="emotionChart" width="800" height="400"></canvas>
+      <div class="container mb-3 chart-grid">
+        <div class="chart-item">
+          <h1 class="text-center">Emotion Tracking Over Time</h1>
+          <div>
+            <canvas id="emotionChart" width="800" height="400"></canvas>
+          </div>
+        </div>
+    
+        <div class="chart-item">
+          <h1 class="text-center">Top Triggers</h1>
+          <div>
+            <canvas id="topTriggersChart" width="800" height="400"></canvas>
+          </div>
         </div>
       </div>
-   
     </section>
-    <section class="gradient-background">
-      <div class="container mb-3">
-        <h1 class="text-center">Top Triggers</h1>
-        <div class="container mb-3">
-          <canvas id="topTriggersChart" width="800" height="400"></canvas>
-        </div>
-      </div>
-    </section>
+    
+    
+    
+    
+    
   
     <script>
       // Fetching the data from the server
@@ -63,7 +68,8 @@
                   data: ylabels.map(entry => entry[0]),
                   fill: false,
                   borderColor: ' #eaaf24',
-                  tension: 0.1
+                  tension: 0.1,
+                  pointRadius: 0 
                 },
                 {
                   label: 'Surprise Level',
@@ -129,68 +135,22 @@
                   }
               }
           },
-          elements: {
-              point: {
-                  pointStyle: 'rectRounded',
-                  radius: 5,
-                  backgroundColor: 'rgb(75, 192, 192)',  // Set point color
-                  borderColor: 'rgb(75, 192, 192)',  // Set point border color
-                  borderWidth: 2
-              }
-          },
           responsive: true,
-          maintainAspectRatio: false,
-          backgroundColor: 'white'  // Set the background color of the chart container to white
+          maintainAspectRatio: false
       }
   });
 
-  //function to map trigger ids to trigger names
-  function mapTriggerIdsToNames(triggerIds) {
-    switch (triggerIds) {
-      case 1:
-        return 'Family';
-      case 2:
-        return 'Work';
-      case 3:
-        return 'Sleep';
-      case 4:
-        return 'Exercise';
-      case 5:
-        return 'Weather';
-      case 6:
-        return 'Friends';
-      case 7:
-        return 'Date';
-      case 8:
-        return 'Study';
-      case 9:
-        return 'Holiday';
-      case 10:  
-        return 'Volunteer';
-      case 11:
-        return 'Healthy Food';
-      case 12:
-        return 'Hungry';
-      default:
-        return`Trigger ${triggerIds}`;
-    }
-  }
-  
-  
 
   // Fetching the trigger data from the server
   const triggerLabels = <%- JSON.stringify(triggerLabels) %>;
   const triggerData = <%- JSON.stringify(triggerData) %>;
 
-  //map trigger ids to trigger names
-  const mappedTriggerLabels = triggerLabels.map(mapTriggerIdsToNames);
-
   const chartData = {
-    labels: mappedTriggerLabels,
+    labels: triggerLabels,
     datasets: [{
       label: 'Trigger Counts',
       data: triggerData,
-      backgroundColor: 'rgba(75, 192, 192, 0.5)',
+      backgroundColor: 'darkteal',
       borderColor: 'rgba(75, 192, 192, 1)',
       borderWidth: 1,
     }]

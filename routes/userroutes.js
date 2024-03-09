@@ -13,6 +13,7 @@ router.get('/changepassword', userController.getChangePassword);
 router.get('/about', userController.getAbout);
 router.get('/contact', userController.getContact);
 
+
 router.post('/register',
     [
         check('first_name')
@@ -33,7 +34,8 @@ router.post('/register',
             .exists({checkFalsy: true}).withMessage('Please enter your password')
             .isLength({ min: 3 }).withMessage('Password must be at least 3 characters long')
     ],
-    userController.postRegister);
+    userController.postRegister
+);
 
 
 
@@ -47,7 +49,8 @@ router.post('/login',
         .exists({checkFalsy: true}).withMessage('Please enter your password')
         .isLength({ min: 3 }).withMessage('Password must be at least 3 characters long')
     ],
-    userController.postLogin);
+    userController.postLogin
+);
 
 router.post('/changepassword',
     [
@@ -68,6 +71,7 @@ router.post('/changepassword',
                 return true;
             }),
     ],
-    userController.postChangePassword);
+    userController.postChangePassword
+);
 
 module.exports = router;

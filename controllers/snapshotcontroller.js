@@ -4,17 +4,20 @@ const conn = require('./../util/dbconn');
 // using express validator
 const { validationResult } = require('express-validator');  
 
-// put the get and post requests in here for the snapshot routes
-
-// get add new snapshot
+// Render the add new snapshot page
 exports.getAddNewSnapshot = (req, res) => {
     const { isLoggedIn, user } = req.session;
     const errorMessage = req.query.error;
     console.log(`User logged in: ${isLoggedIn ? 'yes' : 'no'}`);
-    res.render('addsnapshot', { isLoggedIn, loggedInUser: user, errorMessage });
+    try {
+        res.render('addsnapshot', { isLoggedIn, loggedInUser: user, errorMessage });
+    } catch (error) {
+        console.error('Error rendering "addsnapshot" view:', error);
+        return res.status(500).render('error', { message: 'Internal Server Error' });
+    }
 }
 
-// get snapshot list
+// Retrieve snapshot list for logged in user
 exports.getSnapshotList = (req, res) => {
     const { isLoggedIn, user } = req.session;
     console.log(`User logged in: ${isLoggedIn ? 'yes' : 'no'}`);
@@ -26,15 +29,15 @@ exports.getSnapshotList = (req, res) => {
     
     conn.query(selectSQL, vals, (err, snapshotlist) => {
         if (err) {
-            throw err;
+            console.error('Error fetching snapshot list:', err);
+            return res.status(500).send('Internal Server Error');
         }
-        console.log('info from database for snapshot list');
-        console.log(snapshotlist);
+        console.log('Snapshot list retrieved successfully:', snapshotlist);
         res.render('snapshotlist', { snapshots: snapshotlist, isLoggedIn, loggedInUser: user});
     });
 };
 
-// get snapshot stats
+// Render stats page to generate graphs
 exports.getSnapshotStats = (req, res) => {
     const { isLoggedIn, user } = req.session;
     console.log(`User logged in: ${isLoggedIn ? 'yes' : 'no'}`);
@@ -42,36 +45,43 @@ exports.getSnapshotStats = (req, res) => {
     const user_id = req.session.user_id;
     console.log('user_id from session:', user_id);
     const vals = [user_id];
+    //Fetch emotions data for the user's snapshots 
     const selectSQL = `SELECT * FROM snapshot
                             INNER JOIN snapshot_trigger ON
                             snapshot.snapshot_id = snapshot_trigger.snapshot_id
                             WHERE snapshot.user_id = ? ORDER BY timestamp`;
 
     conn.query(selectSQL, vals, (err, results) => {
-        if (err) throw err;
-
+        if (err) {
+            console.error('Error fetching snapshot stats:', err);
+            return res.status(500).send('Internal Server Error');
+        } 
         const labels = results.map(entry => entry.timestamp);
         const data = results.map(entry => [ entry.enjoyment_level, entry.surprise_level, entry.contempt_level, entry.sadness_level, entry.fear_level, entry.disgust_level, entry.anger_level ]);
 
-        // fetch triggers and their counts 
-        const triggerSQL = `SELECT trigger_id, COUNT(*) as count FROM snapshot_trigger WHERE snapshot_id IN (SELECT snapshot_id FROM snapshot WHERE user_id = ?) GROUP BY trigger_id ORDER BY count DESC LIMIT 5`;
+        // Fetch top 5 triggers for the user's snapshots
+        const triggerSQL = `SELECT snapshot_trigger.trigger_id, contextual_trigger.trigger_name, COUNT(*) as count FROM snapshot_trigger JOIN
+                            contextual_trigger ON snapshot_trigger.trigger_id = contextual_trigger.trigger_id
+                            WHERE snapshot_trigger.snapshot_id IN 
+                            (SELECT snapshot_id FROM snapshot WHERE user_id = ?) 
+                            GROUP BY snapshot_trigger.trigger_id, contextual_trigger.trigger_name
+                            ORDER BY count DESC LIMIT 5`;
         conn.query(triggerSQL, vals, (err, triggerResults) => {
-            if (err) throw err;
+            if (err) {
+                console.error('Error fetching snapshot stats:', err);
+                return res.status(500).send('Internal Server Error');
+            } 
             console.log('Trigger results:', triggerResults);
-            const triggerLabels = triggerResults.map(entry => entry.trigger_id);
+            const triggerLabels = triggerResults.map(entry => entry.trigger_name);
             const triggerData = triggerResults.map(entry => entry.count);
             console.log('Trigger labels:', triggerLabels);
             console.log('Trigger data:', triggerData);
             res.render('stats', { labels, data, triggerLabels, triggerData, isLoggedIn, loggedInUser: user});
-            
         });
     });
 };
 
-
-
-
-// get selected snapshot to delete
+// Get details for the selected snapshot to be deleted
 exports.getDeleteSingleSnapshot = (req, res) => {
     console.log('params from list page');
     console.log(req.params);
@@ -86,17 +96,17 @@ exports.getDeleteSingleSnapshot = (req, res) => {
 
     conn.query(selectSQL, vals, (err, snapshotdetail) => {
         if (err) {
-            throw err;
+            console.error('Error fetching snapshot stats:', err);
+            return res.status(500).send('Internal Server Error');
         } else {
             console.log('info from database for snapshot detail');
             console.log(snapshotdetail);
             res.render('deletesnapshot', { details: snapshotdetail });
         }
     });
-
 }
 
-// get selected snapshot to edit
+// Get details for the selected snapshot to be edited
 exports.getEditSnapshot = (req, res) => {
     console.log('params from list page');
     console.log(req.params);
@@ -111,14 +121,14 @@ exports.getEditSnapshot = (req, res) => {
 
     conn.query(selectSQL, vals, (err, snapshotdetail) => {
         if (err) {
-            throw err;
-        } else {
+            console.error('Error fetching snapshot stats:', err);
+            return res.status(500).send('Internal Server Error');
+        }  else {
             console.log('info from database for snapshot detail');
             console.log(snapshotdetail);
             res.render('editsnapshot', { details: snapshotdetail });
         }
     });
-
 }
 
 // get summary snapshot
@@ -137,24 +147,23 @@ exports.getSummarySnapshot = (req, res) => {
 
     conn.query(selectSQL, vals, (err, snapshotdetail) => {
         if (err) {
-            throw err;
-        } else {
+            console.error('Error fetching snapshot stats:', err);
+            return res.status(500).send('Internal Server Error');
+        }  else {
             console.log('info from database for snapshot detail');
             console.log(snapshotdetail);
             res.render('snapshotsummary', { details: snapshotdetail, isLoggedIn, loggedInUser: user});
         }
     });
-    
 }
 
 // post  new snapshot 
 exports.postNewSnapshot = (req, res) => {
-
+    // Validate form data
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(422).render('addsnapshot', { errors: errors.array(), message: null });
     }
-
     // Check for error query parameter
     const errorMessage = req.query.error;
     if (errorMessage) {
@@ -175,7 +184,10 @@ exports.postNewSnapshot = (req, res) => {
 
     conn.query(insertSQL, vals, (err, rows) => {
         if (err) {
-            throw err;
+            // Handle error appropriately
+            console.error('Error inserting emotion values into the database:', err);
+            res.status(500).send('Internal Server Error');
+            return;
         } 
         console.log('Data inserted into the database:', rows);
 
@@ -211,25 +223,17 @@ exports.postNewSnapshot = (req, res) => {
                     res.status(500).send('Internal Server Error');
                     return;
                 }
-
                 console.log('Checkbox values inserted into the database:', checkboxResult);
                 // Send a response to the client or perform additional actions as needed
                 //console.log(snapshotId);
                 res.redirect(`/summary/${snapshotId}`);
-                
             });
         } else {
-        // No checkboxes selected, proceed without inserting checkbox values
-        // Send a response to the client or perform additional actions as needed
-        //console.log(snapshotId);    
+        // No checkboxes selected, proceed without inserting checkbox values   
         res.redirect(`/summary/${snapshotId}`);
-         
     }
-
   });
-
 };
-
 
 // post delete snapshot
 exports.postDeleteSnapshot = (req, res) => {
@@ -238,7 +242,8 @@ exports.postDeleteSnapshot = (req, res) => {
 
     conn.beginTransaction((err) => {
         if (err) {
-            throw err;
+            console.error('Error deleting snapshot:', err);
+            return res.status(500).send('Internal Server Error');
         }
 
         const deleteSnapshotTriggerSQL = `DELETE FROM snapshot_trigger WHERE snapshot_id = ?`;
@@ -250,21 +255,18 @@ exports.postDeleteSnapshot = (req, res) => {
                     throw err;
                 });
             }
-
             conn.query(deleteSnapshotSQL, [snapshotId], (err, result) => {
                 if (err) {
                     return conn.rollback(() => {
                         throw err;
                     });
                 }
-
                 conn.commit((err) => {
                     if (err) {
                         return conn.rollback(() => {
                             throw err;
                         });
                     }
-
                     console.log('snapshot deleted:', result);
                     res.redirect('/list');
                 });
@@ -272,6 +274,7 @@ exports.postDeleteSnapshot = (req, res) => {
         });
     });
 };
+
 
 // post edit shapshot
 exports.postEditSnapshot = (req, res) => {
@@ -282,7 +285,8 @@ exports.postEditSnapshot = (req, res) => {
 
     conn.query(deleteSQL, snapshotId, (err, rows) => {
         if (err) {
-            throw err;
+            console.error('Error editing snapshot:', err);
+            return res.status(500).send('Internal Server Error');
         } 
         console.log('Data deleted from triggers table', rows);
 
@@ -315,17 +319,12 @@ exports.postEditSnapshot = (req, res) => {
                     res.status(500).send('Internal Server Error');
                     return;
                 }
-
                 console.log('Checkbox values inserted into the database:', checkboxResult);
                 // Send a response to the client or perform additional actions as needed
                 //console.log(snapshotId);
                 res.redirect(`/list`);
-            
             });
-        } else {
-            // No checkboxes selected, proceed without inserting checkbox values
-            // Send a response to the client or perform additional actions as needed
-            //console.log(snapshotId);    
+        } else {    
             res.redirect(`/list`);
         }
     });

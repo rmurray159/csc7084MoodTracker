@@ -22,7 +22,7 @@ app.use(session({
     saveUninitialized: false
 }));
 
-
+// Helmet middleware for additional security headers
 app.use(helmet({
     contentSecurityPolicy: {
         directives: {
@@ -36,11 +36,23 @@ app.use(helmet({
     }
 }));
 
+// Middleware to prevent caching sensitive pages
+app.use((req, res, next) => {
+    res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+    res.header('Expires', '-1');
+    res.header('Pragma', 'no-cache');
+    next();
+});
+
 app.use('/', router);
 app.use('/', userRouter);
 
 // set the current template engine
 app.set('view engine', 'ejs');
+
+app.use('*', (req, res) => {
+    res.status(404).render('error404');
+});
 
 app.listen(process.env.PORT, (err) => {
     if (err) return console.log(err);
