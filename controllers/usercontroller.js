@@ -7,8 +7,6 @@ const bcrypt = require('bcrypt');
 // using express validator
 const { validationResult } = require('express-validator');  
 
-// put the get and post requests in here for the user routes
-
 // get landing page (index) 
 exports.getHomepage = (req, res) => {
     res.render('index');
@@ -59,7 +57,6 @@ exports.getChangePassword = (req, res) => {
     res.render('changepassword', { errors: null, message });
 };
 
-
 // post register page
 exports.postRegister = (req, res) => {
 
@@ -84,7 +81,6 @@ exports.postRegister = (req, res) => {
             const message = "Email already exists";
             return res.redirect('/register?error=' + encodeURIComponent(message)); 
         }
-
 
         // hash the password
         bcrypt.hash(password, 10, (err, hash) => {

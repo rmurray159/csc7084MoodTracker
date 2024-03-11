@@ -13,7 +13,6 @@ router.get('/changepassword', userController.getChangePassword);
 router.get('/about', userController.getAbout);
 router.get('/contact', userController.getContact);
 
-
 router.post('/register',
     [
         check('first_name')
@@ -36,8 +35,6 @@ router.post('/register',
     ],
     userController.postRegister
 );
-
-
 
 router.post('/login',
     [

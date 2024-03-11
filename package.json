@@ -1,7 +1,7 @@
 {
   "name": "csc7084project",
   "version": "1.0.0",
-  "description": "Web development Project - Mood Tracker First Commit - Seeing if I can get things to work",
+  "description": "Web development Project - Mood Tracker",
   "main": "app.js",
   "scripts": {
     "start": "nodemon app.js",

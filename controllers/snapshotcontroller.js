@@ -1,7 +1,7 @@
-// connection to database
+// Connection to database
 const conn = require('./../util/dbconn'); 
 
-// using express validator
+// Using express validator
 const { validationResult } = require('express-validator');  
 
 // Render the add new snapshot page
@@ -131,7 +131,7 @@ exports.getEditSnapshot = (req, res) => {
     });
 }
 
-// get summary snapshot
+// Render summary snapshot following submission of new snapshot
 exports.getSummarySnapshot = (req, res) => {
     const { isLoggedIn, user } = req.session;
     console.log(`User logged in: ${isLoggedIn ? 'yes' : 'no'}`);
@@ -157,7 +157,7 @@ exports.getSummarySnapshot = (req, res) => {
     });
 }
 
-// post  new snapshot 
+// Post  new snapshot 
 exports.postNewSnapshot = (req, res) => {
     // Validate form data
     const errors = validationResult(req);
@@ -224,8 +224,6 @@ exports.postNewSnapshot = (req, res) => {
                     return;
                 }
                 console.log('Checkbox values inserted into the database:', checkboxResult);
-                // Send a response to the client or perform additional actions as needed
-                //console.log(snapshotId);
                 res.redirect(`/summary/${snapshotId}`);
             });
         } else {
@@ -235,7 +233,7 @@ exports.postNewSnapshot = (req, res) => {
   });
 };
 
-// post delete snapshot
+// Post delete snapshot
 exports.postDeleteSnapshot = (req, res) => {
     const snapshotId = req.params.snapshotid;
     console.log('snapshot id to delete:', snapshotId);
@@ -276,7 +274,7 @@ exports.postDeleteSnapshot = (req, res) => {
 };
 
 
-// post edit shapshot
+// Post edit shapshot
 exports.postEditSnapshot = (req, res) => {
     const snapshotId = req.params.snapshotid;
     console.log('snapshot id to edit:', snapshotId);

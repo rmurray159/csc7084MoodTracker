@@ -3,7 +3,6 @@ function submitForm() {
     console.log('Form submitted');
     // Show the modal after form submission
     $('#thanksModal').modal('show');
-
     // Reset the form fields
     document.getElementById('contactForm').reset();
 }

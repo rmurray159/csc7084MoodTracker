@@ -38,15 +38,14 @@
           <% } %>
 
         
-          <h2 class="text-center"><%= formattedDate %> <%= formattedTime %> </h2>
+          <h1 class="text-center"><%= formattedDate %> <%= formattedTime %> </h1>
 
           <!-- Heading for Sliders -->
           <div class="mb-3">
-              <h4>Your snapshot has been saved</h4>
+              <h2>Your snapshot has been saved</h2>
           </div>
 
           <!-- Range Sliders with Value Display -->
-          
           <div class="mb-3">
               <label for="slider1" class="form-label">
               <img src="/img/enjoyment.svg" alt="Enjoyment Emoji" height="20" style="margin-right: 10px;">Enjoyment: 
@@ -90,9 +89,10 @@
           </div>
 
           <!-- Button-Like Checkboxes - Allow Multiple Selection -->
-          <h4>What's been happening?</h4>
+          <h2>What's been happening?</h2>
+
           <div class="mb-3">
-            <label for="checkboxGroup" class="form-label"></label>
+            <label for="checkboxGroup" class="form-label">Selected triggers:</label>
             <div class="btn-group" role="group" aria-label="Checkbox Group" id="checkboxGroup">
 
             <input type="hidden" name="checkbox_value1" value="1">    
@@ -178,14 +178,12 @@
 
             <!-- Add space using Bootstrap spacing -->
             <div class="mx-2"></div>
-
           </div>
 
-
           <!-- Text Box after Button Group -->
-        <h4>Notes</h4>
+        <h2>Notes</h2>
         <div class="mb-3">
-          <label for="textBox" class="form-label"></label>
+          <label for="notes" class="form-label">Add your notes:</label>
           <textarea class="form-control" id="notes" name="notes" rows="3" readonly><%= notes %></textarea>
         </div>
 

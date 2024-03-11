@@ -10,7 +10,6 @@ exports.validateInput = (req, res, next) => {
         const errorMessage = encodeURIComponent('Notes contains disallowed characters');
         return res.status(422).redirect(`/new?error=${errorMessage}`);
     }
-
     next();
 };
 
