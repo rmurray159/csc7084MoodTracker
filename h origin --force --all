@@ -1,0 +1,48 @@
+* [33m2033387[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m Update .gitignore to exclude node_modules and package-lock.json
+* [33mdc6bacd[m Checking if the gitignore file works
+* [33m447a6ec[m Add .gitignore to exclude node_modules and package-lok.json
+* [33m5758b4b[m Fixing the git index file
+* [33m33f4262[m error handling
+* [33ma1d2d13[m accessibility check
+* [33me96f5ee[m contact and about us
+* [33m1b9b668[m change password page added
+* [33m7ffe9a7[m nav bar and buttons
+* [33mfa2106a[m adding api
+* [33m694a894[m bar chart
+* [33m58ec16f[m chart added
+* [33m6afafa6[m Validation added
+* [33m3649bd1[m validation added
+* [33mdbaf931[m register page added
+* [33m366093e[m editsnapshot added and user routes
+* [33mef8aa43[m snapshot list and single select
+* [33mc633337[m Summary Snapshot added
+* [33mf3c21c5[m Results page added
+* [33m6d9fd2a[m Database for triggers
+* [33m6d92417[m Connected snapshot to database
+* [33mbdb8405[m Setting up addsnapshot
+* [33m59586a5[m Trying to add it all
+* [33m66aca47[m Update README.md
+* [33mf3a3a2c[m Initial commit
+* [33m34c76a3[m Add .gitignore to exclude node_modules and package-lok.json
+* [33mc53a13f[m Fixing the git index file
+* [33mb15661e[m error handling
+* [33m430a641[m accessibility check
+* [33mc84077d[m contact and about us
+* [33m4078a8e[m change password page added
+* [33ma674bb4[m nav bar and buttons
+* [33meb2e3a4[m adding api
+* [33m0430939[m bar chart
+* [33m66911b6[m chart added
+* [33m57b9d19[m Validation added
+* [33mb15932c[m validation added
+* [33mc1cce93[m register page added
+* [33mfa0800d[m editsnapshot added and user routes
+* [33m61978ff[m snapshot list and single select
+* [33m523249d[m Summary Snapshot added
+* [33m1782592[m Results page added
+* [33mb6eea3c[m Database for triggers
+* [33m25c882f[m Connected snapshot to database
+* [33m3f4e956[m Setting up addsnapshot
+* [33mde6885b[m Trying to add it all
+* [33mc972a42[m Update README.md
+* [33m88d7b1e[m Initial commit
