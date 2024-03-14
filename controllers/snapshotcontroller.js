@@ -197,14 +197,14 @@ exports.postNewSnapshot = (req, res) => {
         //Checkboxes processing
         const checkboxValues = [];
 
-        // Check the 12 checkboxes (would need to be adjusted if change number of checkboxes)
+        // Check the 12 checkboxes 
         for (let i = 1; i <=12; i++) {
             const checkboxName = `checkbox${i}`; //
             const checkboxValue = req.body[checkboxName];
 
             console.log(`Checkbox ${i}:`, checkboxName, checkboxValue);
 
-            // Check if the checkbox is checked chatGPT snipped for it isArray
+            // Check if the checkbox is checked 
             if (Array.isArray(checkboxValue) ? checkboxValue[1] === 'on' : checkboxValue === 'on') {
             const actualValue = parseInt(req.body[`checkbox_value${i}`], 10);
             checkboxValues.push([snapshotId, actualValue]);
@@ -298,7 +298,7 @@ exports.postEditSnapshot = (req, res) => {
 
             console.log(`Checkbox ${i}:`, checkboxName, checkboxValue);
 
-             // Check if the checkbox is checked chatGPT snipped for it isArray
+             // Check if the checkbox is checked 
             if (Array.isArray(checkboxValue) ? checkboxValue[1] === 'on' : checkboxValue === 'on') {
             const actualValue = parseInt(req.body[`checkbox_value${i}`], 10);
             checkboxValues.push([snapshotId, actualValue]);

@@ -135,6 +135,7 @@ exports.postLogin = (req, res) => {
             }
             if (result) {
                 console.log('Password match');
+                
                 // set session
                 const session = req.session;
                 session.isLoggedIn = true;

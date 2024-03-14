@@ -1,3 +1,4 @@
+//imports
 const express = require('express');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
@@ -8,14 +9,17 @@ const router = require('./routes/snapshotroutes');
 const userRouter = require('./routes/userroutes');
 const helmet = require('helmet');
 const path = require('path');
-
+// Express app setup
 const app = express();
 
+// Middleware
 app.use(morgan('tiny'));
+
 // access to stylesheets, images 
 app.use(express.static(path.join(__dirname, '/public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
+//session middleware
 app.use(session({
     secret: 'mysecretstring123',
     resave: false,
@@ -43,17 +47,19 @@ app.use((req, res, next) => {
     res.header('Pragma', 'no-cache');
     next();
 });
-
+//Routing
 app.use('/', router);
 app.use('/', userRouter);
 
 // set the current template engine
 app.set('view engine', 'ejs');
 
+//error handling
 app.use('*', (req, res) => {
     res.status(404).render('error404');
 });
 
+//Server Listening
 app.listen(process.env.PORT, (err) => {
     if (err) return console.log(err);
 

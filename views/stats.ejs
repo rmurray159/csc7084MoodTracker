@@ -39,12 +39,14 @@
     </section>
     
     <script>
+      // Emotion Tracking Over Time Chart
       // Fetching the data from the server
       const xdata = `<%- JSON.stringify(labels) %>`;
       const xlabels = JSON.parse(xdata);
 
       const ydata = `<%- JSON.stringify(data) %>`;
       const ylabels = JSON.parse(ydata);
+
       // Formatting timestamps into a more readable format
       const formattedLabels = xlabels.map(timestamp => {
       const date = new Date(timestamp);
@@ -132,9 +134,9 @@
           },
           responsive: true,
           maintainAspectRatio: false
-      }
+        }
   });
-
+  // Top Triggers Chart
   // Fetching the trigger data from the server
   const triggerLabels = <%- JSON.stringify(triggerLabels) %>;
   const triggerData = <%- JSON.stringify(triggerData) %>;
